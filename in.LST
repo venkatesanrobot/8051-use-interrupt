@@ -1,0 +1,81 @@
+C51 COMPILER V9.53.0.0   IN                                                                09/23/2018 08:38:09 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE IN
+OBJECT MODULE PLACED IN in.OBJ
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE in.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          // File Name: interrupt
+   2          // Author: R.venkatesan
+   3          // lcd 16X2 8bit method 
+   4           // lcd pin connection port0 -data pin (D0-D7)
+   5           // control pin lcd conection  RS=P2^7, R/W=P2^6, E=P2^5
+   6           
+   7          
+   8          # include <reg51.h>
+   9          # include <stdio.h>
+  10          # include "lcd.h"  // lcd library 
+  11          /* if want change the lcd pin connection open lcd file library change the pin as per your aspect 
+  12           And also remain you change busy flag= bf(used name in lcdlibrary ) also for inlcd pin data  lcd file liba
+             -ry  */
+  13          
+  14          
+  15          void ex_0() interrupt 0
+  16          { 
+  17   1           lcd_com(0x01);  // lcd cammand dispaly frist line
+  18   1           lcd_string(" interrupt 0"); // write your own word in double quotes
+  19   1           delay(100); // delay for seen the lcd lines display
+  20   1      }
+  21          void ex_2() interrupt 2
+  22          { 
+  23   1           lcd_com(0x01);  // lcd cammand dispaly frist line
+  24   1           lcd_string(" interrupt 1"); // write your own word in double quotes
+  25   1           delay(100); // delay for seen the lcd lines displa
+  26   1        } 
+  27          
+  28          
+  29           void main()
+  30           {
+  31   1        port(); // pulldown the all pin in micro controller
+  32   1        lcd_initial(); // lcd basic initialization cammand line 
+  33   1         
+  34   1        
+  35   1         EA=1; // enable global the interrupt
+  36   1         EX0=1;  // use interrupt 0
+  37   1         EX1=1; // use interrupt 1
+  38   1         
+  39   1         // both interrupt are falling edge interrupt
+  40   1         
+  41   1         while(1)
+  42   1         {
+  43   2           lcd_com(0x01);  // lcd cammand dispaly frist line
+  44   2           lcd_string("wait interrupt"); // write your own word in double quotes
+  45   2           
+  46   2           lcd_com (0xc0);  // lcd cammand dispaly second line
+  47   2           lcd_string("scanning ");  // write your own word in double quotes
+  48   2           
+  49   2            delay(100); // delay for seen the lcd lines display
+  50   2           check(); // checking interrupt occur 
+*** WARNING C206 IN LINE 50 OF in.c: 'check': missing function-prototype
+  51   2         }
+  52   1           
+  53   1       }
+C51 COMPILER V9.53.0.0   IN                                                                09/23/2018 08:38:09 PAGE 2   
+
+  54            
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    330    ----
+   CONSTANT SIZE    =     51    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
